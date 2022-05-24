@@ -40,7 +40,6 @@ struct SetGame {
     
     mutating func select(_ card: Card) {
         if let selectedIndex = cards.firstIndex(where: {$0.id == card.id}) {
-//            let cardId = faceUpCards[selectedIndex].id
             
             if !cards[selectedIndex].isSelected {
                 switch selectedCardsIndices.count {
@@ -68,7 +67,12 @@ struct SetGame {
                 resetSelection()
                 cards[selectedIndex].isSelected = true
             } else {
-                return
+                switch selectedCardsIndices.count {
+                    case 1,2:
+                        cards[selectedIndex].isSelected = false
+                    default:
+                        return
+                }
             }
         } else {
             return
