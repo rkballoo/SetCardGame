@@ -80,11 +80,12 @@ struct SetGame {
     }
     
     private mutating func resetSelection() {
-        cards.indices.forEach() { index in
+        cards.indices.filter({cards[$0].isFaceUp}).forEach() { index in
             if let matched = cards[index].isMatched {
                 if matched == true {
                     cards[index].isSelected = false
                     cards[index].isFaceUp = false
+                    swapMatchedWithNewCard(index)
                 } else {
                     cards[index].isMatched = nil
                     cards[index].isSelected = false
@@ -92,6 +93,15 @@ struct SetGame {
             } else {
                 cards[index].isSelected = false
             }
+        }
+    }
+    
+    private mutating func swapMatchedWithNewCard(_ matchedCardIndex: Int) {
+        if let index = cards.firstIndex(where: {!$0.isFaceUp && $0.isMatched != true}) {
+            cards[index].isFaceUp = true
+            cards.swapAt(index, matchedCardIndex)
+        } else {
+            return
         }
     }
     
