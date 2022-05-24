@@ -20,8 +20,8 @@ class ColoredSetGame: ObservableObject {
         return game.cards.filter({$0.isFaceUp})
     }
     
-    var cardsInDeck: [Card] {
-        return game.cards
+    var cardsAreLeftInDeck: Bool {
+        return game.cards.filter({!$0.isFaceUp && $0.isMatched != true}).count != 0
     }
     
     // MARK: - Intent(s)

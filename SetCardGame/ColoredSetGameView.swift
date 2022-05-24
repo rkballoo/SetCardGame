@@ -26,7 +26,7 @@ struct ColoredSetGameView: View {
                     Image(systemName: "plus").font(.title)
                     Image(systemName: "3.square.fill").font(.largeTitle)
                 }
-            }
+            }.disabled(!game.cardsAreLeftInDeck)
         }
     }
 }
