@@ -24,7 +24,14 @@ struct CardView: View {
                 shape.strokeBorder(.black, lineWidth: DrawingConstants.lineWidth)
                 SymbolView(card: card, color: color, size: geometry.size)
                 if card.isSelected {
-                    shape.fill(.blue).opacity(0.3)
+                    switch card.isMatched {
+                        case true:
+                            shape.fill(.green).opacity(0.3)
+                        case false:
+                            shape.fill(.red).opacity(0.3)
+                        default:
+                            shape.fill(.blue).opacity(0.3)
+                    }
                 }
             }
             Spacer(minLength: 0)

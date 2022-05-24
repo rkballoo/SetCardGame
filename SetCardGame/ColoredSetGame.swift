@@ -17,11 +17,11 @@ class ColoredSetGame: ObservableObject {
     }
     
     var faceUpCards: [Card] {
-        return game.faceUpCards
+        return game.cards.filter({$0.isFaceUp})
     }
     
     var cardsInDeck: [Card] {
-        return game.cardsInDeck
+        return game.cards
     }
     
     // MARK: - Intent(s)

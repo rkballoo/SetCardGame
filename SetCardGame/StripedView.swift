@@ -40,9 +40,3 @@ struct StripedView: View {
         static let widthDivisor = 4
     }
 }
-//
-//struct StripedView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StripedView(width: 100, height: 100, color: .red)
-//    }
-//}

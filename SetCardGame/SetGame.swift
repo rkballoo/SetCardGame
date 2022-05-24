@@ -23,37 +23,97 @@ struct SetGame {
         case one = 1, two = 2, three = 3
     }
     
-    var cardsInDeck: [Card]
-    var faceUpCards: [Card] = []
-    var matchedCards: [Card] = []
-    var selectedCards: [Card] = [] // {
-//        get {
-//            ForEach(faceUpCards, id: ) { card in
-//                if card.isSelected {
-//
-//                }
-//            }
-//        }
-//    }
+    var cards: [Card]
+    var selectedCardsIndices: [Int] {
+        get { cards.indices.filter({cards[$0].isSelected}) }
+    }
     
     mutating func drawCards(numberToDraw: Int) {
-        if numberToDraw > cardsInDeck.count {
+        if numberToDraw > cards.filter({!$0.isFaceUp && $0.isMatched != true}).count {
             return
         }
         for _ in 0..<numberToDraw {
-            faceUpCards.append(cardsInDeck.removeFirst())
+            guard let index = cards.firstIndex(where: {!$0.isFaceUp && $0.isMatched != true}) else { return }
+            cards[index].isFaceUp = true
         }
     }
     
     mutating func select(_ card: Card) {
-        if let selectedIndex = faceUpCards.firstIndex(where: {$0.id == card.id}),
-           !faceUpCards[selectedIndex].isSelected,
-           faceUpCards[selectedIndex].isMatched != true,
-           selectedCards.count < 3
-        {
-            faceUpCards[selectedIndex].isSelected = true
+        if let selectedIndex = cards.firstIndex(where: {$0.id == card.id}) {
+//            let cardId = faceUpCards[selectedIndex].id
+            
+            if !cards[selectedIndex].isSelected {
+                switch selectedCardsIndices.count {
+                    case let x where x < 2:
+                        cards[selectedIndex].isSelected = true
+                    case 2:
+                        if(isSelectedSetMatch(index: selectedIndex)) {
+                            cards[selectedCardsIndices[0]].isMatched = true
+                            cards[selectedCardsIndices[1]].isMatched = true
+                            cards[selectedIndex].isSelected = true
+                            cards[selectedIndex].isMatched = true
+                        } else {
+                            cards[selectedCardsIndices[0]].isMatched = false
+                            cards[selectedCardsIndices[1]].isMatched = false
+                            cards[selectedIndex].isSelected = true
+                            cards[selectedIndex].isMatched = false
+                        }
+                    case 3:
+                        resetSelection()
+                        cards[selectedIndex].isSelected = true
+                    default:
+                        return
+                }
+            } else if cards[selectedIndex].isMatched == false {
+                resetSelection()
+                cards[selectedIndex].isSelected = true
+            } else {
+                return
+            }
+        } else {
+            return
         }
-//        else if
+    }
+    
+    private mutating func resetSelection() {
+        cards.indices.forEach() { index in
+            if let matched = cards[index].isMatched {
+                if matched == true {
+                    cards[index].isSelected = false
+                    cards[index].isFaceUp = false
+                } else {
+                    cards[index].isMatched = nil
+                    cards[index].isSelected = false
+                }
+            } else {
+                cards[index].isSelected = false
+            }
+        }
+    }
+    
+    private func isSelectedSetMatch(index: Int) -> Bool {
+        let card1 = cards[index]
+        let card2 = cards[selectedCardsIndices[0]]
+        let card3 = cards[selectedCardsIndices[1]]
+        
+        if ((card1.color == card2.color && card2.color == card3.color)
+            || (card1.color != card2.color && card2.color != card3.color && card1.color != card3.color)
+        ) {
+            if ((card1.symbol == card2.symbol && card2.symbol == card3.symbol)
+                || (card1.symbol != card2.symbol && card2.symbol != card3.symbol && card1.symbol != card3.symbol)
+            ) {
+                if ((card1.shading == card2.shading && card2.shading == card3.shading)
+                    || (card1.shading != card2.shading && card2.shading != card3.shading && card1.shading != card3.shading)
+                ) {
+                    if ((card1.number == card2.number && card2.number == card3.number)
+                        || (card1.number != card2.number && card2.number != card3.number && card1.number != card3.number)
+                    ) {
+                        return true
+                    }
+                }
+            }
+        }
+        return false
     }
     
     init() {
@@ -78,7 +138,7 @@ struct SetGame {
             }
         }
         
-        cardsInDeck = cards.shuffled()
+        self.cards = cards.shuffled()
     }
     
     struct Card: Identifiable {
