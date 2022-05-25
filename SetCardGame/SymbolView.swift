@@ -36,13 +36,13 @@ struct SymbolView: View {
         let height = size.height * SymbolConstants.relativeHeightMultiplier
         
         ZStack {
-            let diamondBorder = Rectangle().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
+            let diamondBorder = Diamond().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
             let ovalBorder = Capsule().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
-            let squiggleBorder = RoundedRectangle(cornerRadius: 5).stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
+            let squiggleBorder = Squiggle().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
             
-            let diamond = Rectangle().frame(width: width, height: height)
+            let diamond = Diamond().frame(width: width, height: height)
             let oval = Capsule().frame(width: width, height: height)
-            let squiggle = RoundedRectangle(cornerRadius: 5).frame(width: width, height: height)
+            let squiggle = Squiggle().frame(width: width, height: height)
             
             switch card.symbol {
                 case .diamond:
