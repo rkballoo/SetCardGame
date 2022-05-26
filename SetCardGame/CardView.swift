@@ -20,8 +20,8 @@ struct CardView: View {
         GeometryReader { geometry in
             ZStack {
                 let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
-                shape.fill(.white)
-                shape.strokeBorder(.black, lineWidth: DrawingConstants.lineWidth)
+                shape.fill(Color("cardColor"))
+//                shape.strokeBorder(.black, lineWidth: DrawingConstants.lineWidth)
                 SymbolView(card: card, color: color, size: geometry.size)
                 if card.isSelected {
                     switch card.isMatched {

@@ -24,6 +24,7 @@ struct SetGame {
     }
     
     var cards: [Card]
+    var score = 0
     var selectedCardsIndices: [Int] {
         get { cards.indices.filter({cards[$0].isSelected}) }
     }
@@ -59,11 +60,13 @@ struct SetGame {
                             cards[selectedCardsIndices[1]].isMatched = true
                             cards[selectedIndex].isSelected = true
                             cards[selectedIndex].isMatched = true
+                            score += getScore(cards: [cards[selectedCardsIndices[0]], cards[selectedCardsIndices[1]], cards[selectedIndex]])
                         } else {
                             cards[selectedCardsIndices[0]].isMatched = false
                             cards[selectedCardsIndices[1]].isMatched = false
                             cards[selectedIndex].isSelected = true
                             cards[selectedIndex].isMatched = false
+                            score -= 3
                         }
                     case 3:
                         resetSelection()
@@ -140,6 +143,16 @@ struct SetGame {
         return false
     }
     
+    private func getScore(cards: [Card]) -> Int {
+        var score = 0
+        for card in cards {
+            if let time = card.timeSinceFaceUp {
+                score += max(2, 25 + Int(time.timeIntervalSinceNow))
+            }
+        }
+        return score
+    }
+    
     init() {
         var cards = [Card]()
         var count = 0
@@ -172,8 +185,13 @@ struct SetGame {
         let shading: SymbolShading
         let number: NumberOfSymbols
         
-        var isFaceUp = false
+        var isFaceUp = false {
+            willSet {
+                timeSinceFaceUp = Date()
+            }
+        }
         var isSelected = false
         var isMatched: Bool?
+        var timeSinceFaceUp: Date?
     }
 }

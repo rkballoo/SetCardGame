@@ -14,6 +14,21 @@ struct ColoredSetGameView: View {
         VStack {
             Text("SET")
                 .font(.largeTitle)
+            HStack {
+                Button(action: game.newGame) {
+                    Image(systemName: "sparkles.rectangle.stack.fill").font(.title)
+                }
+                .padding(.horizontal)
+                Spacer()
+                Text("Score: \(game.score)")
+                Spacer()
+                Button(action: game.drawThreeCards) {
+                    ZStack {
+                        Image(systemName: "rectangle.stack.badge.plus").font(.title)
+                    }
+                }.disabled(!game.cardsAreLeftInDeck)
+                    .padding(.horizontal)
+            }
             AspectScrollVGrid(items: game.faceUpCards, aspectRatio: 2/3) { card in
                 CardView(card, color: game.getColor(card: card))
                     .padding(4)
@@ -21,12 +36,19 @@ struct ColoredSetGameView: View {
                         game.select(card)
                     }
             }
-            Button(action: game.drawThreeCards) {
-                HStack(spacing: 0) {
-                    Image(systemName: "plus").font(.title)
-                    Image(systemName: "3.square.fill").font(.largeTitle)
-                }
-            }.disabled(!game.cardsAreLeftInDeck)
+//            HStack {
+//                Button(action: game.newGame) {
+//                    Image(systemName: "sparkles.rectangle.stack.fill").font(.title)
+//                }
+//                .padding()
+//                Spacer()
+//                Button(action: game.drawThreeCards) {
+//                    ZStack {
+//                        Image(systemName: "rectangle.stack.badge.plus").font(.title)
+//                    }
+//                }.disabled(!game.cardsAreLeftInDeck)
+//                    .padding()
+//            }
         }
     }
 }

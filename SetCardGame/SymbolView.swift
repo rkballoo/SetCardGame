@@ -66,7 +66,7 @@ struct SymbolView: View {
             case .striped:
                 StripedView(width: width, height: height, color: color)
             default:
-                Color.white.frame(width: width, height: height)
+                Color("cardColor").frame(width: width, height: height)
         }
     }
     

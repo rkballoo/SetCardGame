@@ -13,7 +13,7 @@ class ColoredSetGame: ObservableObject {
     @Published private var game: SetGame
     
     init() {
-        game = SetGame()
+        game = ColoredSetGame.createSetGame()
     }
     
     var faceUpCards: [Card] {
@@ -24,7 +24,21 @@ class ColoredSetGame: ObservableObject {
         return game.cards.filter({!$0.isFaceUp && $0.isMatched != true}).count != 0
     }
     
+    var score: Int {
+        return game.score
+    }
+    
+    private static func createSetGame() -> SetGame {
+        var game = SetGame()
+        game.drawCards(numberToDraw: 12)
+        return game
+    }
+    
     // MARK: - Intent(s)
+    
+    func newGame() {
+        game = ColoredSetGame.createSetGame()
+    }
     
     func drawCards(numberToDraw: Int) {
         game.drawCards(numberToDraw: numberToDraw)
