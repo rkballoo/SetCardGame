@@ -25,7 +25,7 @@ struct SetGame {
     
     var cards: [Card]
     var score = 0
-    var selectedCardsIndices: [Int] {
+    private var selectedCardsIndices: [Int] {
         get { cards.indices.filter({cards[$0].isSelected}) }
     }
     
@@ -66,7 +66,7 @@ struct SetGame {
                             cards[selectedCardsIndices[1]].isMatched = false
                             cards[selectedIndex].isSelected = true
                             cards[selectedIndex].isMatched = false
-                            score -= 3
+//                            score -= 3
                         }
                     case 3:
                         resetSelection()
@@ -94,8 +94,6 @@ struct SetGame {
         cards.indices.filter({cards[$0].isFaceUp}).forEach() { index in
             if let matched = cards[index].isMatched {
                 if matched == true {
-//                    cards[index].isSelected = false
-//                    cards[index].isFaceUp = false
                     swapMatchedWithNewCard(index)
                 } else {
                     cards[index].isMatched = nil
