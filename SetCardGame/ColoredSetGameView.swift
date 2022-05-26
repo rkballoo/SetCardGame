@@ -11,44 +11,45 @@ struct ColoredSetGameView: View {
     @StateObject var game: ColoredSetGame
     
     var body: some View {
-        VStack {
-            Text("SET")
-                .font(.largeTitle)
-            HStack {
-                Button(action: game.newGame) {
-                    Image(systemName: "sparkles.rectangle.stack.fill").font(.title)
-                }
-                .padding(.horizontal)
+        ZStack {
+            VStack {
                 Spacer()
-                Text("Score: \(game.score)")
+                Text("\(game.score)")
+                    .font(.system(size: 80))
+                    .foregroundColor(Color("scoreColor"))
+                    .multilineTextAlignment(.center)
+            }
+            VStack {
+                Text("SET")
+                    .font(.largeTitle)
                 Spacer()
-                Button(action: game.drawThreeCards) {
-                    ZStack {
-                        Image(systemName: "rectangle.stack.badge.plus").font(.title)
+
+                HStack {
+                    Button(action: game.newGame) {
+                        Text("New Game")
                     }
-                }.disabled(!game.cardsAreLeftInDeck)
                     .padding(.horizontal)
-            }
-            AspectScrollVGrid(items: game.faceUpCards, aspectRatio: 2/3) { card in
-                CardView(card, color: game.getColor(card: card))
-                    .padding(4)
-                    .onTapGesture {
-                        game.select(card)
+                    Spacer()
+                    Button(action: game.drawThreeCards) {
+                        Text("+3 Cards")
+                    }.disabled(!game.cardsAreLeftInDeck)
+                        .padding(.horizontal)
+                }
+                AspectScrollVGrid(items: game.faceUpCards, aspectRatio: 2/3) { card in
+                    CardView(card, color: game.getColor(card: card))
+                        .padding(4)
+                        .onTapGesture {
+                            game.select(card)
+                        }
+                }
+                HStack {
+                    Button(action: game.cheat) {
+                        Text("Help!")
                     }
+                    .padding(.horizontal)
+                    Spacer()
+                }
             }
-//            HStack {
-//                Button(action: game.newGame) {
-//                    Image(systemName: "sparkles.rectangle.stack.fill").font(.title)
-//                }
-//                .padding()
-//                Spacer()
-//                Button(action: game.drawThreeCards) {
-//                    ZStack {
-//                        Image(systemName: "rectangle.stack.badge.plus").font(.title)
-//                    }
-//                }.disabled(!game.cardsAreLeftInDeck)
-//                    .padding()
-//            }
         }
     }
 }

@@ -21,7 +21,9 @@ struct CardView: View {
             ZStack {
                 let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
                 shape.fill(Color("cardColor"))
-//                shape.strokeBorder(.black, lineWidth: DrawingConstants.lineWidth)
+                if card.highlighted == true {
+                    shape.strokeBorder(.yellow.opacity(0.3), lineWidth: DrawingConstants.lineWidth)
+                }
                 SymbolView(card: card, color: color, size: geometry.size)
                 if card.isSelected {
                     switch card.isMatched {
@@ -40,6 +42,6 @@ struct CardView: View {
     
     private struct DrawingConstants {
         static let cornerRadius: CGFloat = 10
-        static let lineWidth: CGFloat = 3
+        static let lineWidth: CGFloat = 5
     }
 }

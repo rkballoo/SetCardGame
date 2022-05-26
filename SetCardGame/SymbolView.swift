@@ -66,13 +66,13 @@ struct SymbolView: View {
             case .striped:
                 StripedView(width: width, height: height, color: color)
             default:
-                Color("cardColor").frame(width: width, height: height)
+                Color.white.opacity(0).frame(width: width, height: height)
         }
     }
     
     private struct SymbolConstants {
         static let relativeWidthMultiplier: CGFloat = 0.65
         static let relativeHeightMultiplier: CGFloat = 0.15
-        static let borderWidth: CGFloat = 3
+        static let borderWidth: CGFloat = 1
     }
 }

@@ -40,12 +40,12 @@ class ColoredSetGame: ObservableObject {
         game = ColoredSetGame.createSetGame()
     }
     
-    func drawCards(numberToDraw: Int) {
-        game.drawCards(numberToDraw: numberToDraw)
+    func drawThreeCards() {
+        game.drawThreeCards()
     }
     
-    func drawThreeCards() {
-        game.drawCards(numberToDraw: 3)
+    func cheat() {
+        game.highlightFirstPossibleMatch()
     }
     
     func select(_ card: Card) {
