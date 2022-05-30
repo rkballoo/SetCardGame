@@ -17,15 +17,15 @@ struct ColoredSetGameView: View {
                 Text("SET")
                     .font(.largeTitle)
                 Spacer()
-                TopMenu(game: game)
+                TopMenu(game: game, score: game.score)
                 AspectScrollVGrid(items: game.faceUpCards, aspectRatio: 2/3) { card in
-                    CardView(card, color: game.getColor(card: card))
+                    CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
                         .padding(4)
                         .onTapGesture {
                             game.select(card)
                         }
                 }
-                BottomMenu(game: game, score: game.score)
+                BottomMenu(game: game)
             }
         }
     }
@@ -48,36 +48,34 @@ struct ScoreInBackground: View {
 
 struct BottomMenu: View {
     let game: ColoredSetGame
-    let score: Int
     
     var body: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()),  GridItem(.flexible())]) {
             Button(action: game.cheat) {
                 Text("Help!")
             }
-            .padding(.horizontal)
             Spacer()
-            Text("Score: \(score)")
-                .foregroundColor(Color("scoreColor"))
-                .padding(.horizontal)
+            Button(action: game.colorBlindModeToggle) {
+                Text("Col. Blind")
+            }
         }
     }
 }
 
 struct TopMenu: View {
     let game: ColoredSetGame
+    let score: Int
     
     var body: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]) {
             Button(action: game.newGame) {
                 Text("New Game")
             }
-            .padding(.horizontal)
-            Spacer()
+            Text("Score: \(score)")
+                .foregroundColor(Color("scoreColor"))
             Button(action: game.drawThreeCards) {
                 Text("+3 Cards")
             }.disabled(!game.cardsAreLeftInDeck)
-                .padding(.horizontal)
         }
     }
 }

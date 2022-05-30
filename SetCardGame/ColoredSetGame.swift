@@ -11,6 +11,7 @@ class ColoredSetGame: ObservableObject {
     typealias Card = SetGame.Card
     
     @Published private var game: SetGame
+    @Published var colorBlindMode = false
     
     init() {
         game = ColoredSetGame.createSetGame()
@@ -61,5 +62,9 @@ class ColoredSetGame: ObservableObject {
             default:
                 return Color.red
         }
+    }
+    
+    func colorBlindModeToggle() {
+        colorBlindMode.toggle()
     }
 }
