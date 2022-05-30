@@ -36,13 +36,13 @@ struct SymbolView: View {
         let height = size.height * SymbolConstants.relativeHeightMultiplier
         
         ZStack {
-            let diamondBorder = Rectangle().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
+            let diamondBorder = Diamond().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
             let ovalBorder = Capsule().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
-            let squiggleBorder = RoundedRectangle(cornerRadius: 5).stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
+            let squiggleBorder = Squiggle().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
             
-            let diamond = Rectangle().frame(width: width, height: height)
+            let diamond = Diamond().frame(width: width, height: height)
             let oval = Capsule().frame(width: width, height: height)
-            let squiggle = RoundedRectangle(cornerRadius: 5).frame(width: width, height: height)
+            let squiggle = Squiggle().frame(width: width, height: height)
             
             switch card.symbol {
                 case .diamond:
@@ -66,13 +66,13 @@ struct SymbolView: View {
             case .striped:
                 StripedView(width: width, height: height, color: color)
             default:
-                Color.white.frame(width: width, height: height)
+                Color.white.opacity(0).frame(width: width, height: height)
         }
     }
     
     private struct SymbolConstants {
         static let relativeWidthMultiplier: CGFloat = 0.65
         static let relativeHeightMultiplier: CGFloat = 0.15
-        static let borderWidth: CGFloat = 3
+        static let borderWidth: CGFloat = 1
     }
 }

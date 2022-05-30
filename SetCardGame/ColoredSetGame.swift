@@ -11,27 +11,42 @@ class ColoredSetGame: ObservableObject {
     typealias Card = SetGame.Card
     
     @Published private var game: SetGame
+    @Published var colorBlindMode = false
     
     init() {
-        game = SetGame()
+        game = ColoredSetGame.createSetGame()
     }
     
     var faceUpCards: [Card] {
-        return game.faceUpCards
+        return game.cards.filter({$0.isFaceUp})
     }
     
-    var cardsInDeck: [Card] {
-        return game.cardsInDeck
+    var cardsAreLeftInDeck: Bool {
+        return game.cards.filter({!$0.isFaceUp && $0.isMatched != true}).count != 0
+    }
+    
+    var score: Int {
+        return game.score
+    }
+    
+    private static func createSetGame() -> SetGame {
+        var game = SetGame()
+        game.drawCards(numberToDraw: 12)
+        return game
     }
     
     // MARK: - Intent(s)
     
-    func drawCards(numberToDraw: Int) {
-        game.drawCards(numberToDraw: numberToDraw)
+    func newGame() {
+        game = ColoredSetGame.createSetGame()
     }
     
     func drawThreeCards() {
-        game.drawCards(numberToDraw: 3)
+        game.drawThreeCards()
+    }
+    
+    func cheat() {
+        game.highlightFirstPossibleMatch()
     }
     
     func select(_ card: Card) {
@@ -47,5 +62,9 @@ class ColoredSetGame: ObservableObject {
             default:
                 return Color.red
         }
+    }
+    
+    func colorBlindModeToggle() {
+        colorBlindMode.toggle()
     }
 }

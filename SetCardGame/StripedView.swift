@@ -24,10 +24,10 @@ struct StripedView: View {
     var body: some View {
         HStack(spacing: 0) {
             ForEach(0..<numberOfStrips, id: \.self) { number in
-                Color.white
+                Color.white.opacity(0)
                 color.frame(width: StripsConstants.lineWidth)
                 if number == numberOfStrips - 1 {
-                    Color.white
+                    Color.white.opacity(0)
                 }
             }
             
@@ -40,9 +40,3 @@ struct StripedView: View {
         static let widthDivisor = 4
     }
 }
-//
-//struct StripedView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        StripedView(width: 100, height: 100, color: .red)
-//    }
-//}

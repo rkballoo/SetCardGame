@@ -12,7 +12,7 @@ struct SetCardGameApp: App {
     var body: some Scene {
         WindowGroup {
             let game = ColoredSetGame()
-            ColoredSetGameView(game: game)
+            ColoredSetGameView(game: game).background(Color("backgroundColor"))
         }
     }
 }

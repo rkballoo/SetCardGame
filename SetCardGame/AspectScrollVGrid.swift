@@ -21,7 +21,8 @@ struct AspectScrollVGrid<Item, ItemView>: View where Item: Identifiable, ItemVie
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                LazyVGrid(columns: [adaptiveGridItem()], spacing: 0) {
+                let width = widthThatFits(itemsCount: items.count, in: geometry.size)
+                LazyVGrid(columns: [adaptiveGridItem(width: width)], spacing: 0) {
                     ForEach(items) { item in
                         content(item)
                             .aspectRatio(aspectRatio, contentMode: .fit)
@@ -31,10 +32,29 @@ struct AspectScrollVGrid<Item, ItemView>: View where Item: Identifiable, ItemVie
         }
     }
     
-    private func adaptiveGridItem() -> GridItem {
-        var gridItem = GridItem(.adaptive(minimum: 70))
+    private func adaptiveGridItem(width: CGFloat) -> GridItem {
+        var gridItem = GridItem(.adaptive(minimum: width))
         gridItem.spacing = 0
         return gridItem
+    }
+    
+    private func widthThatFits(itemsCount: Int, in size: CGSize) -> CGFloat {
+        var columnCount = 1
+        var rowCount = itemsCount
+        repeat {
+            let itemWidth = size.width / CGFloat(columnCount)
+            let itemHeight = itemWidth / CGFloat(aspectRatio)
+            if itemHeight * CGFloat(rowCount) < size.height { break }
+            columnCount += 1
+            rowCount = (itemsCount / columnCount) + 1
+        } while columnCount < itemsCount
+        if columnCount > itemsCount {
+            columnCount = itemsCount
+        }
+        
+        let width: CGFloat = floor(size.width / CGFloat(columnCount))
+        
+        return max(60, width)
     }
 }
 
