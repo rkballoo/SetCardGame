@@ -111,6 +111,8 @@ Listed below are the required tasks and the extra credit tasks, lifted from http
   without penalty? You will need to figure out how to use Timer to do these time-
   limited things.
   
+    Has not been implemented yet.
+  
   8. Can you think of a way to make your application work for color-blind people? If you
   tackle this Extra Credit, make it so that “color-blind mode” is on only if some Bool
   somewhere is set to true (and submit your application with it in the false state). In
