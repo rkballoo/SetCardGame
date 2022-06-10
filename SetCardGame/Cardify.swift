@@ -25,6 +25,9 @@ struct Cardify: ViewModifier {
                 shape.strokeBorder(.yellow.opacity(highlighted ? 0.3: 0), lineWidth: DrawingConstants.lineWidth)
                 
                 content
+                    .scaleEffect(isMatched == true && isSelected ? 1.1 : 1)
+                    .animation(.spring().repeatForever(), value: isMatched)
+                    .scaleEffect(isMatched == false && isSelected ? 0.8 : 1)
                 
                 VStack {
                     Spacer()
