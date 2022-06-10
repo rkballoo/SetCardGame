@@ -118,7 +118,7 @@ struct SetGame {
         cards.indices.filter({cards[$0].isFaceUp}).forEach() { index in
             if let matched = cards[index].isMatched {
                 if matched == true {
-                    swapMatchedWithNewCard(index)
+                    cards[index].isSelected = false
                 } else {
                     cards[index].isMatched = nil
                     cards[index].isSelected = false
@@ -131,7 +131,6 @@ struct SetGame {
     
     private mutating func swapMatchedWithNewCard(_ matchedCardIndex: Int) {
         cards[matchedCardIndex].isSelected = false
-        cards[matchedCardIndex].isFaceUp = false
         if let index = cards.firstIndex(where: {!$0.isFaceUp && $0.isMatched != true}) {
             cards[index].isFaceUp = true
             cards.swapAt(index, matchedCardIndex)
