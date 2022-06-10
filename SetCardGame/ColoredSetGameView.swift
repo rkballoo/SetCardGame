@@ -118,7 +118,7 @@ struct ColoredSetGameView: View {
     }
     
     var gameBody: some View {
-        AspectScrollVGrid(items: game.faceUpCards, aspectRatio: CardConstants.aspectRatio) { card in
+        AspectScrollVGrid(items: game.faceUpCards.filter({isDealt($0) && !isDiscarded($0)}), aspectRatio: CardConstants.aspectRatio) { card in
             if isDealt(card) && !isDiscarded(card) {
                 withAnimation {
                     CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)

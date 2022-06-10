@@ -21,21 +21,18 @@ struct Cardify: ViewModifier {
                 let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
                 shape.fill(Color("cardColor"))
                 shape.strokeBorder(.black, lineWidth: 1)
+                
                 shape.strokeBorder(.yellow.opacity(highlighted ? 0.3: 0), lineWidth: DrawingConstants.lineWidth)
+                
                 content
+                
                 VStack {
                     Spacer()
                     Text(color.description.capitalized)
                         .font(.caption)
                 }
                 .opacity(colorBlindMode ? 1 : 0)
-//                if colorBlindMode {
-//                    VStack {
-//                        Spacer()
-//                        Text(color.description.capitalized)
-//                            .font(.caption)
-//                    }
-//                }
+                
                 shape.fill(.green).opacity(isMatched == true && isSelected ? 0.3 : 0)
                 shape.fill(.red).opacity(isMatched == false && isSelected ? 0.3 : 0)
                 shape.fill(.blue).opacity(isMatched == nil && isSelected ? 0.3 : 0)
@@ -60,34 +57,6 @@ struct Cardify: ViewModifier {
                     }
                     .opacity(colorBlindMode && isMatched == nil && isSelected ? 1 : 0)
                 }
-//                if isSelected {
-//                    switch isMatched {
-//                        case true:
-//                            if colorBlindMode {
-//                                VStack {
-//                                    Text("Set!")
-//                                        .font(.caption)
-//                                    Spacer()
-//                                }
-//                            }
-//                        case false:
-//                            if colorBlindMode {
-//                                VStack {
-//                                    Text("Not A Set")
-//                                        .font(.caption2)
-//                                    Spacer()
-//                                }
-//                            }
-//                        default:
-//                            if colorBlindMode {
-//                                VStack {
-//                                    Text("Selected")
-//                                        .font(.caption)
-//                                    Spacer()
-//                                }
-//                            }
-//                    }
-//                }
             } else {
                 let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
                 shape.fill(Color("cardColor"))
