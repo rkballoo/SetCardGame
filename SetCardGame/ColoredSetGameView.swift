@@ -43,8 +43,21 @@ struct ColoredSetGameView: View {
     }
     
     private func discardCards() {
+        var i = 0
         for card in game.cards.filter( { $0.isMatched == true && !isDiscarded($0) } ) {
-            discard(card)
+            withAnimation(dealAnimation(order: i)) {
+                discard(card)
+                i+=1
+            }
+        }
+    }
+    
+    private func areCardsToDiscard() -> Bool {
+        let count = game.cards.filter( { $0.isMatched == true && !isDiscarded($0) } ).count
+        if count == 0 {
+            return false
+        } else {
+            return true
         }
     }
     
@@ -69,13 +82,20 @@ struct ColoredSetGameView: View {
         }
     }
     
+    private func dealAnimation(order: Int) -> Animation {
+        let delay = Double(order) * CardConstants.delayDuration
+        return Animation.easeInOut(duration: CardConstants.dealDuration).delay(delay)
+    }
+    
     var deckBody: some View {
         ZStack {
             ForEach(game.cards.filter( { !isDealt($0) })) { card in
-                CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
-                    .matchedGeometryEffect(id: card.id, in: dealingNamespace)
-                    .rotationEffect(Angle(degrees: cardRotation(card)))
-                    .zIndex(zIndex(of: card))
+                withAnimation {
+                    CardView(isDealt(card), card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
+                        .matchedGeometryEffect(id: card.id, in: dealingNamespace)
+                        .rotationEffect(Angle(degrees: cardRotation(card)))
+                        .zIndex(zIndex(of: card))
+                }
             }
         }
         .frame(width: CardConstants.deckWidth, height: CardConstants.deckHeight)
@@ -83,21 +103,26 @@ struct ColoredSetGameView: View {
             if dealt.isEmpty {
                 withAnimation {
                     game.drawTwelveCards()
-                }
-                for card in game.faceUpCards {
-                    withAnimation {
-                        deal(card)
+                    var i = 0
+                    for card in game.faceUpCards.filter( { !isDealt($0) } ) {
+                        withAnimation(dealAnimation(order: i)) {
+                            deal(card)
+                            i+=1
+                        }
                     }
                 }
-                
             } else {
+                let discarding = areCardsToDiscard()
+                discardCards()
                 withAnimation {
-                    discardCards()
                     game.drawThreeCards()
                 }
+                var i = 0
+                if discarding == true { i+=1 }
                 for card in game.faceUpCards.filter( { !isDealt($0) } ) {
-                    withAnimation {
+                    withAnimation(dealAnimation(order: i)) {
                         deal(card)
+                        i+=1
                     }
                 }
             }
@@ -108,7 +133,7 @@ struct ColoredSetGameView: View {
         ZStack {
             ForEach(game.cards.filter( { isDiscarded($0) } )) { card in
                 withAnimation {
-                    CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
+                    CardView(isDealt(card), card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                         .rotationEffect(Angle(degrees: cardRotation(card)))
                 }
@@ -118,17 +143,18 @@ struct ColoredSetGameView: View {
     }
     
     var gameBody: some View {
-        AspectScrollVGrid(items: game.faceUpCards.filter({isDealt($0) && !isDiscarded($0)}), aspectRatio: CardConstants.aspectRatio) { card in
-            if isDealt(card) && !isDiscarded(card) {
+        AspectScrollVGrid(items: game.faceUpCards.filter({!isDiscarded($0)}), aspectRatio: CardConstants.aspectRatio) { card in
+            if !isDealt(card) {
+                Color.clear
+            } else {
                 withAnimation {
-                    CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
+                    CardView(isDealt(card), card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                         .padding(CardConstants.cardPadding)
                         .onTapGesture {
+                            discardCards()
                             withAnimation {
-                                discardCards()
                                 game.select(card)
-                                
                             }
                         }
                 }
@@ -148,9 +174,6 @@ struct ColoredSetGameView: View {
             Spacer()
             Text("Score: \(game.score)")
                 .foregroundColor(Color("scoreColor"))
-//            Button(action: game.drawThreeCards) {
-//                Text("+3 Cards")
-//            }.disabled(!game.cardsAreLeftInDeck)
         }
     }
     
@@ -173,6 +196,9 @@ struct ColoredSetGameView: View {
         static let deckHeight: CGFloat = 90
         static let rotationConstant: Double = 13
         static let rotationDivisor: Double = 3
+        
+        static let delayDuration: Double = 0.15
+        static let dealDuration: Double = 0.3
     }
 }
 

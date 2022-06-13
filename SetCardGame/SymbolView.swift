@@ -36,13 +36,13 @@ struct SymbolView: View {
         let height = size.height * SymbolConstants.relativeHeightMultiplier
         
         ZStack {
-            let diamondBorder = Diamond().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
-            let ovalBorder = Capsule().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
-            let squiggleBorder = Squiggle().stroke(color, lineWidth: SymbolConstants.borderWidth).frame(width: width, height: height)
+            let diamondBorder = Diamond().stroke(color, lineWidth: SymbolConstants.borderWidth)
+            let ovalBorder = Capsule().stroke(color, lineWidth: SymbolConstants.borderWidth)
+            let squiggleBorder = Squiggle().stroke(color, lineWidth: SymbolConstants.borderWidth)
             
-            let diamond = Diamond().frame(width: width, height: height)
-            let oval = Capsule().frame(width: width, height: height)
-            let squiggle = Squiggle().frame(width: width, height: height)
+            let diamond = Diamond()
+            let oval = Capsule()
+            let squiggle = Squiggle()
             
             switch card.symbol {
                 case .diamond:
@@ -56,17 +56,18 @@ struct SymbolView: View {
                     shadingToUse(width: width,height: height).mask(squiggle)
             }
         }
+        .frame(width: width, height: height)
     }
     
     @ViewBuilder
     private func shadingToUse(width: CGFloat, height: CGFloat) -> some View {
         switch card.shading {
             case .solid:
-                color.frame(width: width, height: height)
+                color
             case .striped:
-                StripedView(width: width, height: height, color: color)
+                StripedView(color: color)
             default:
-                Color.white.opacity(0).frame(width: width, height: height)
+                Color.clear
         }
     }
     

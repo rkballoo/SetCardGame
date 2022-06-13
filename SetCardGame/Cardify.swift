@@ -6,8 +6,8 @@
 //
 
 import SwiftUI
-
-struct Cardify: ViewModifier {
+// WIP
+struct Cardify: Animatable, ViewModifier {
     let isFaceUp: Bool
     let isSelected: Bool
     let isMatched: Bool?
@@ -15,9 +15,27 @@ struct Cardify: ViewModifier {
     let color : Color
     let colorBlindMode: Bool
     
+    init(isDealt: Bool, isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) {
+        self.isFaceUp = isFaceUp
+        self.isSelected = isSelected
+        self.isMatched = isMatched
+        self.highlighted = highlighted
+        self.color = color
+        self.colorBlindMode = colorBlindMode
+        
+        rotation = isDealt ? 0 : 180
+    }
+    
+    var animatableData: Double {
+        get { rotation }
+        set { rotation = newValue }
+    }
+    
+    var rotation: Double // in degrees
+    
     func body(content: Content) -> some View {
         ZStack {
-            if isFaceUp {
+            if rotation < 90 {
                 let shape = RoundedRectangle(cornerRadius: DrawingConstants.cornerRadius)
                 shape.fill(Color("cardColor"))
                 shape.strokeBorder(.black, lineWidth: 1)
@@ -66,6 +84,7 @@ struct Cardify: ViewModifier {
                 shape.strokeBorder(.black, lineWidth: 1)
             }
         }
+        .rotation3DEffect(Angle.degrees(rotation), axis: (0, 1, 0))
     }
     
     private struct DrawingConstants {
@@ -75,7 +94,7 @@ struct Cardify: ViewModifier {
 }
 
 extension View {
-    func cardify(isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) -> some View {
-        self.modifier(Cardify(isFaceUp: isFaceUp, isSelected: isSelected, isMatched: isMatched, highlighted: highlighted, color: color, colorBlindMode: colorBlindMode))
+    func cardify(isDealt: Bool, isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) -> some View {
+        self.modifier(Cardify(isDealt: isDealt, isFaceUp: isFaceUp, isSelected: isSelected, isMatched: isMatched, highlighted: highlighted, color: color, colorBlindMode: colorBlindMode))
     }
 }
