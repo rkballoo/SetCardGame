@@ -2,12 +2,15 @@
 
 This is an application implementing the Set Card Game (https://en.wikipedia.org/wiki/Set_(card_game)) in Swift.
 
-This implementation follows the requirements outlined in the third Programming Assignment of the publicly available:
+This implementation follows the requirements outlined in the third and fourth Programming Assignment of the publicly available:
 2021 version of the 'CS193p - Developing Apps for iOS' course from Stanford University: https://cs193p.sites.stanford.edu/
 
-Listed below are the required tasks and the extra credit tasks, lifted from https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf.
+Listed below are the required tasks and the extra credit tasks, lifted from https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf
+and
+https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_4_0.pdf
 
-# Required Tasks
+# Functionality Implementation 
+  # Required Tasks
 
   1. Implement a game of solo (i.e. one player) Set.
    
@@ -85,7 +88,7 @@ Listed below are the required tasks and the extra credit tasks, lifted from http
   not require any work on your part (that’s part of the power of SwiftUI), but be sure to
   experiment with running on different simulators/Previews in Xcode to be sure.
 
-# Extra Credit
+  # Extra Credit
 
   1. Draw the actual squiggle instead of using a rectangle.
   
@@ -119,3 +122,69 @@ Listed below are the required tasks and the extra credit tasks, lifted from http
   other words, you must still satisfy the Required Tasks and they specifically ask you to
   use 3 distinct colors. Some UI to change the value of this Bool is not required, but
   you can include it if you want.
+  
+# Animations Implementation
+  # Required Tasks
+  
+  1. Your assignment this week must still play a solo game of Set.
+
+  2. In this version, though, when there is a match showing and the user chooses another
+  card, do not replace the matched cards; instead, discard them (leaving fewer cards in
+  the game).
+  
+  3. Add a “deck” and a “discard pile” to your UI. They can be any size you want and
+  you can put them anywhere you want on screen, but they should not be part of your
+  main grid of cards and they should each look like a stack of cards (for example, they
+  should have the same aspect ratio as the cards that are in play).
+  
+  4. The deck should contain all the not-yet-dealt cards in the game. They should be “face
+  down” (i.e. you should not be able to see the symbols on them).
+  
+  5. The discard pile should contain all the cards that have been discarded from the game
+  (i.e. the cards that were discarded because they matched). These cards should be face
+  up (i.e. you should be able to see the symbols on the last discarded card). Obviously the
+  discard pile is empty when your game starts.
+  
+  6. Any time matched cards are discarded, they should be animated to “fly” to the discard
+  pile.
+  
+  7. You don’t need your “Deal 3 More Cards” button any more. Instead, tapping on the deck
+  should deal 3 more cards.
+  
+  8. Whenever more cards are dealt into the game for any reason (including to start the
+  game), their appearance should be animated by “flying them” from the deck into
+  place.
+  
+  9. Note that dealing 3 more cards when a match is showing on the board still should
+  replace those cards and that those matched cards would be flying to the discard pile at
+  the same time as the 3 new cards are flying from the deck (see Extra Credit too).
+  
+  10.All the card repositioning and resizing that was required by Required Task 2 in last
+  week’s assignment must now be animated. If your cards from last week never changed
+  their size or position as cards were dealt or discarded, then fix that this week so that
+  they do.
+  
+  11.When a match occurs, use some animation (your choice) to draw attention to the
+  match.
+  
+  12.When a mismatch occurs, use some animation (your choice) to draw attention to the
+  mismatch. This animation must be very noticeably different from the animation used
+  to show a match (obviously).
+  
+  # Extra Credit
+
+  1. Have your deck and/or discard pile be either “sloppy” (i.e. not a perfectly neat stack)
+  or show the first few cards slightly offset (so that it looks more like a stack).
+  
+  2. When you deal 3 more cards and there is a match showing, start animating the
+  matched cards flying to the discard pile before the animation of the 3 new cards flying
+  in from the deck starts. In other words, give the user a better impression of “I just
+  replaced these 3 cards for you” by delaying the dealing animation a short bit in this
+  scenario. The animations can still overlap, but delaying the dealing one just a little bit
+  can result in a pleasing effect.
+  
+  3. Make the cards that you deal out flip from face down (as they are in the deck) to face
+  up (as they are once they are in play). You can use/modify the .cardify
+  ViewModifier from lecture if you want.
+  
+  4. Add any other animation you can think of that would make sense.
