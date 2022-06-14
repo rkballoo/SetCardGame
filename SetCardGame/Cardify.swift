@@ -6,24 +6,22 @@
 //
 
 import SwiftUI
-// WIP
-struct Cardify: Animatable, ViewModifier {
-    let isFaceUp: Bool
+
+struct Cardify: AnimatableModifier {
     let isSelected: Bool
     let isMatched: Bool?
     let highlighted: Bool
     let color : Color
     let colorBlindMode: Bool
     
-    init(isDealt: Bool, isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) {
-        self.isFaceUp = isFaceUp
+    init(isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) {
         self.isSelected = isSelected
         self.isMatched = isMatched
         self.highlighted = highlighted
         self.color = color
         self.colorBlindMode = colorBlindMode
         
-        rotation = isDealt ? 0 : 180
+        rotation = isFaceUp ? 0 : 180
     }
     
     var animatableData: Double {
@@ -94,7 +92,7 @@ struct Cardify: Animatable, ViewModifier {
 }
 
 extension View {
-    func cardify(isDealt: Bool, isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) -> some View {
-        self.modifier(Cardify(isDealt: isDealt, isFaceUp: isFaceUp, isSelected: isSelected, isMatched: isMatched, highlighted: highlighted, color: color, colorBlindMode: colorBlindMode))
+    func cardify(isFaceUp: Bool, isSelected: Bool, isMatched: Bool?, highlighted: Bool, color: Color, colorBlindMode: Bool) -> some View {
+        self.modifier(Cardify(isFaceUp: isFaceUp, isSelected: isSelected, isMatched: isMatched, highlighted: highlighted, color: color, colorBlindMode: colorBlindMode))
     }
 }

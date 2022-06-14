@@ -34,11 +34,19 @@ struct SetGame {
             return
         }
         
-        if selectedCardsIndices.count == 3, cards[selectedCardsIndices[0]].isMatched == true {
-            selectedCardsIndices.forEach() { index in
-                swapMatchedWithNewCard(index)
+        if selectedCardsIndices.count > 0 {
+            if cards[selectedCardsIndices[0]].isMatched == true {
+                swapMatchedWithNewCard(selectedCardsIndices[0])
+                return
             }
-            return
+            if cards[selectedCardsIndices[1]].isMatched == true {
+                swapMatchedWithNewCard(selectedCardsIndices[1])
+                return
+            }
+            if cards[selectedCardsIndices[2]].isMatched == true {
+                swapMatchedWithNewCard(selectedCardsIndices[2])
+                return
+            }
         }
         
         for _ in 0..<numberToDraw {

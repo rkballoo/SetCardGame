@@ -87,11 +87,16 @@ struct ColoredSetGameView: View {
         return Animation.easeInOut(duration: CardConstants.dealDuration).delay(delay)
     }
     
+    private func flipAnimation(order: Int) -> Animation {
+        let delay = Double(order) * CardConstants.delayDuration
+        return Animation.easeInOut.delay(delay)
+    }
+    
     var deckBody: some View {
         ZStack {
             ForEach(game.cards.filter( { !isDealt($0) })) { card in
                 withAnimation {
-                    CardView(isDealt(card), card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
+                    CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                         .rotationEffect(Angle(degrees: cardRotation(card)))
                         .zIndex(zIndex(of: card))
@@ -101,28 +106,32 @@ struct ColoredSetGameView: View {
         .frame(width: CardConstants.deckWidth, height: CardConstants.deckHeight)
         .onTapGesture {
             if dealt.isEmpty {
-                withAnimation {
-                    game.drawTwelveCards()
-                    var i = 0
-                    for card in game.faceUpCards.filter( { !isDealt($0) } ) {
-                        withAnimation(dealAnimation(order: i)) {
-                            deal(card)
-                            i+=1
-                        }
+                for i in 0..<12 {
+                    withAnimation(flipAnimation(order: i)) {
+                        game.drawCard()
+                    }
+                }
+                var j = 0
+                for card in game.faceUpCards.filter( { !isDealt($0) } ) {
+                    withAnimation(dealAnimation(order: j)) {
+                        deal(card)
+                        j+=1
                     }
                 }
             } else {
                 let discarding = areCardsToDiscard()
                 discardCards()
-                withAnimation {
-                    game.drawThreeCards()
+                for i in 0..<3 {
+                    withAnimation(flipAnimation(order: discarding ? i+1 : i)) {
+                        game.drawCard()
+                    }
                 }
-                var i = 0
-                if discarding == true { i+=1 }
+                var j = 0
+                if discarding == true { j+=1 }
                 for card in game.faceUpCards.filter( { !isDealt($0) } ) {
-                    withAnimation(dealAnimation(order: i)) {
+                    withAnimation(dealAnimation(order: j)) {
                         deal(card)
-                        i+=1
+                        j+=1
                     }
                 }
             }
@@ -133,7 +142,7 @@ struct ColoredSetGameView: View {
         ZStack {
             ForEach(game.cards.filter( { isDiscarded($0) } )) { card in
                 withAnimation {
-                    CardView(isDealt(card), card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
+                    CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                         .rotationEffect(Angle(degrees: cardRotation(card)))
                 }
@@ -148,7 +157,7 @@ struct ColoredSetGameView: View {
                 Color.clear
             } else {
                 withAnimation {
-                    CardView(isDealt(card), card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
+                    CardView(card, color: game.getColor(card: card), colorBlindMode: game.colorBlindMode)
                         .matchedGeometryEffect(id: card.id, in: dealingNamespace)
                         .padding(CardConstants.cardPadding)
                         .onTapGesture {
@@ -198,7 +207,7 @@ struct ColoredSetGameView: View {
         static let rotationDivisor: Double = 3
         
         static let delayDuration: Double = 0.15
-        static let dealDuration: Double = 0.3
+        static let dealDuration: Double = 0.5
     }
 }
 

@@ -13,10 +13,10 @@ struct StripedView: View {
     var body: some View {
         HStack(spacing: 0) {
             ForEach(0..<StripeConstants.numberOfStrips, id: \.self) { number in
-                Color.white.opacity(0)
+                Color.clear
                 color.frame(width: StripeConstants.lineWidth)
                 if number == StripeConstants.numberOfStrips - 1 {
-                    Color.white.opacity(0)
+                    Color.clear
                 }
             }
         }
