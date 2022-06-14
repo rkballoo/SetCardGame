@@ -5,12 +5,12 @@ This is an application implementing the Set Card Game (https://en.wikipedia.org/
 This implementation follows the requirements outlined in the third and fourth Programming Assignment of the publicly available:
 2021 version of the 'CS193p - Developing Apps for iOS' course from Stanford University: https://cs193p.sites.stanford.edu/
 
-Listed below are the required tasks and the extra credit tasks, lifted from https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf
+Listed below are the required tasks and the extra credit tasks, lifted from https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_3_0.pdf 
 and
 https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/assignment_4_0.pdf
 
 # Functionality Implementation 
-  # Required Tasks
+## Required Tasks
 
   1. Implement a game of solo (i.e. one player) Set.
    
@@ -88,7 +88,7 @@ https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/ass
   not require any work on your part (that’s part of the power of SwiftUI), but be sure to
   experiment with running on different simulators/Previews in Xcode to be sure.
 
-  # Extra Credit
+## Extra Credit
 
   1. Draw the actual squiggle instead of using a rectangle.
   
@@ -124,7 +124,7 @@ https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/ass
   you can include it if you want.
   
 # Animations Implementation
-  # Required Tasks
+## Required Tasks
   
   1. Your assignment this week must still play a solo game of Set.
 
@@ -171,7 +171,7 @@ https://cs193p.sites.stanford.edu/sites/g/files/sbiybj16636/files/media/file/ass
   mismatch. This animation must be very noticeably different from the animation used
   to show a match (obviously).
   
-  # Extra Credit
+## Extra Credit
 
   1. Have your deck and/or discard pile be either “sloppy” (i.e. not a perfectly neat stack)
   or show the first few cards slightly offset (so that it looks more like a stack).
