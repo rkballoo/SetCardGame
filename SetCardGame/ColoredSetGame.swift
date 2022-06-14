@@ -17,6 +17,10 @@ class ColoredSetGame: ObservableObject {
         game = ColoredSetGame.createSetGame()
     }
     
+    var cards: [Card] {
+        return game.cards
+    }
+    
     var faceUpCards: [Card] {
         return game.cards.filter({$0.isFaceUp})
     }
@@ -30,9 +34,7 @@ class ColoredSetGame: ObservableObject {
     }
     
     private static func createSetGame() -> SetGame {
-        var game = SetGame()
-        game.drawCards(numberToDraw: 12)
-        return game
+        return SetGame()
     }
     
     // MARK: - Intent(s)
@@ -41,8 +43,8 @@ class ColoredSetGame: ObservableObject {
         game = ColoredSetGame.createSetGame()
     }
     
-    func drawThreeCards() {
-        game.drawThreeCards()
+    func drawCard() {
+        game.drawCards(numberToDraw: 1)
     }
     
     func cheat() {

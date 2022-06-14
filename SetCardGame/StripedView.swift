@@ -8,35 +8,23 @@
 import SwiftUI
 
 struct StripedView: View {
-    let width: CGFloat
-    let height: CGFloat
-    let numberOfStrips: Int
     let color: Color
-    
-    init(width: CGFloat, height: CGFloat, color: Color) {
-        self.width = width
-        self.height = height
-        self.color = color
-        
-        numberOfStrips = Int(width) / StripsConstants.widthDivisor
-    }
     
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(0..<numberOfStrips, id: \.self) { number in
-                Color.white.opacity(0)
-                color.frame(width: StripsConstants.lineWidth)
-                if number == numberOfStrips - 1 {
-                    Color.white.opacity(0)
+            ForEach(0..<StripeConstants.numberOfStrips, id: \.self) { number in
+                Color.clear
+                color.frame(width: StripeConstants.lineWidth)
+                if number == StripeConstants.numberOfStrips - 1 {
+                    Color.clear
                 }
             }
-            
-        }.frame(width: width, height: height)
-        
+        }
     }
     
-    private struct StripsConstants {
+    private struct StripeConstants {
         static let lineWidth: CGFloat = 1
         static let widthDivisor = 4
+        static let numberOfStrips = 12
     }
 }

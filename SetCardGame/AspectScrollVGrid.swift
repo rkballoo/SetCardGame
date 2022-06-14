@@ -58,8 +58,3 @@ struct AspectScrollVGrid<Item, ItemView>: View where Item: Identifiable, ItemVie
     }
 }
 
-//struct AspectScrollVGrid_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AspectScrollVGrid(aspectRatio: 2/3)
-//    }
-//}

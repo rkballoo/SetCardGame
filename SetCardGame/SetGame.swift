@@ -34,11 +34,19 @@ struct SetGame {
             return
         }
         
-        if selectedCardsIndices.count == 3, cards[selectedCardsIndices[0]].isMatched == true {
-            selectedCardsIndices.forEach() { index in
-                swapMatchedWithNewCard(index)
+        if selectedCardsIndices.count > 0 {
+            if cards[selectedCardsIndices[0]].isMatched == true {
+                swapMatchedWithNewCard(selectedCardsIndices[0])
+                return
             }
-            return
+            if cards[selectedCardsIndices[1]].isMatched == true {
+                swapMatchedWithNewCard(selectedCardsIndices[1])
+                return
+            }
+            if cards[selectedCardsIndices[2]].isMatched == true {
+                swapMatchedWithNewCard(selectedCardsIndices[2])
+                return
+            }
         }
         
         for _ in 0..<numberToDraw {
@@ -118,7 +126,7 @@ struct SetGame {
         cards.indices.filter({cards[$0].isFaceUp}).forEach() { index in
             if let matched = cards[index].isMatched {
                 if matched == true {
-                    swapMatchedWithNewCard(index)
+                    cards[index].isSelected = false
                 } else {
                     cards[index].isMatched = nil
                     cards[index].isSelected = false
@@ -131,7 +139,6 @@ struct SetGame {
     
     private mutating func swapMatchedWithNewCard(_ matchedCardIndex: Int) {
         cards[matchedCardIndex].isSelected = false
-        cards[matchedCardIndex].isFaceUp = false
         if let index = cards.firstIndex(where: {!$0.isFaceUp && $0.isMatched != true}) {
             cards[index].isFaceUp = true
             cards.swapAt(index, matchedCardIndex)
