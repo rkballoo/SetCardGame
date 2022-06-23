@@ -1,6 +1,6 @@
 # SetCardGame
 
-This is an application implementing the Set Card Game (https://en.wikipedia.org/wiki/Set_(card_game)) in Swift.
+This is an application implementing the Set Card Game (https://en.wikipedia.org/wiki/Set_(card_game)) in Swift using the SwiftUI framework.
 
 This implementation follows the requirements outlined in the third and fourth Programming Assignment of the publicly available:
 2021 version of the 'CS193p - Developing Apps for iOS' course from Stanford University: https://cs193p.sites.stanford.edu/
